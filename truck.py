@@ -1,3 +1,6 @@
 class Truck:
     def __init__(self):
-        pass
+        self.packages = []
+        self.mileage = 0.0
+        self.speed = 18
+        self.max_capacity = 16
