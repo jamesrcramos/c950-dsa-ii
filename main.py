@@ -35,6 +35,14 @@ def main():
             filtered_row = [float(dist) if dist else 0.0 for dist in row]
             distance_data.append(filtered_row)
 
+    address_data = []
+    with open('data/addresses.csv', 'r') as file:
+        csv_reader = csv.reader(file)
+        
+        for row in csv_reader:
+            # Extract just the address part (before the zip code in parentheses)
+            address = row[0].split('\n')[0].strip()
+            address_data.append(address)
 
 if __name__ == "__main__":
     main()
