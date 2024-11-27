@@ -5,8 +5,10 @@ class Truck:
         self.speed = 18
         self.max_capacity = 16
 
-    def load_packages(self, package):
-        if len(self.packages) < self.max_capacity:
-            self.packages.append(package)
-        else:
-            print("Truck is at max capacity")
+    def load_packages(self, packages):
+        for package in packages:
+            if len(self.packages) < self.max_capacity:
+                self.packages.append(package)
+            else:
+                print("Truck is at max capacity")
+                break
