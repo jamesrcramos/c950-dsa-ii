@@ -45,8 +45,8 @@ def main():
 
     # Load trucks
     truck1 = Truck() # Early delivery
-    truck2 = Truck() # Delayed + can only be loaded on truck 2
-    truck3 = Truck() # Wrong address + remaining
+    truck2 = Truck() # Delayed + can only be loaded on truck 2 + wrong address
+    truck3 = Truck() # No constraints
 
     early_delivery_packages = [
         1, 13, 14, 15, 16, 20, 29, 30, 31, 34, 37, 40
@@ -62,6 +62,27 @@ def main():
         24, 26, 27, 33, 35, 39
     ]
 
+    truck1.load_packages(early_delivery_packages)
+    truck2.load_packages(delayed_packages)
+    truck3.load_packages(wrong_address_packages)
+    for package in other_packages:
+        if truck3.get_num_packages() < 16:
+            truck3.load_packages([package])
+        else:
+            print(f"Truck 3 is at max capacity. {package} not loaded.")
+            break
+    # Load remaining packages into truck 1 as it will be available first
+    for package in other_packages:
+        if package not in truck3.get_packages():
+            if truck1.get_num_packages() < 16:
+                truck1.load_packages([package])
+            else:
+                print(f"Truck 1 is at max capacity. {package} not loaded.")
+                break
+
+    print(truck1.get_packages())
+    print(truck2.get_packages())
+    print(truck3.get_packages())
 
 if __name__ == "__main__":
     main()
