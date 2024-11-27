@@ -1,6 +1,9 @@
+from hash_table import ChainingHashTable
+
 def main():
-    """Main entry point of the program"""
-    pass
+    hash_table = ChainingHashTable()
+    
+    print(hash_table.table)
 
 if __name__ == "__main__":
     main()
