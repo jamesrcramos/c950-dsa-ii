@@ -10,5 +10,11 @@ class Truck:
             if len(self.packages) < self.max_capacity:
                 self.packages.append(package)
             else:
-                print("Truck is at max capacity")
+                print(f"Truck is at max capacity. {package} not loaded.")
                 break
+
+    def get_num_packages(self):
+        return len(self.packages)
+    
+    def get_packages(self):
+        return self.packages
