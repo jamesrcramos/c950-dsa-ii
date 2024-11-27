@@ -26,20 +26,14 @@ def main():
             # Insert package into hash table using ID as key
             hash_table.insert(package.id, package)
 
-    # print(hash_table.table)
-    print("\nPackage Details:")
-    for i in range(1, 41):
-        package = hash_table.search(i)
-        print(f"\nPackage {package.id}:")
-        print(f"Address: {package.address}")
-        print(f"City: {package.city}")
-        print(f"State: {package.state}")
-        print(f"ZIP: {package.zip}")
-        print(f"Delivery Deadline: {package.delivery_deadline}")
-        print(f"Weight: {package.weight}")
-        print(f"Special Notes: {package.special_notes}")
-        print(f"Delivery Status: {package.delivery_status}")
-        print(f"Delivery Time: {package.delivery_time}")
+    distance_data = []
+    with open('data/distances.csv', 'r') as file:
+        csv_reader = csv.reader(file)
+            
+        for row in csv_reader:
+            # Filter out empty strings and convert to float
+            filtered_row = [float(dist) if dist else 0.0 for dist in row]
+            distance_data.append(filtered_row)
 
 
 if __name__ == "__main__":
