@@ -1,5 +1,6 @@
 from hash_table import ChainingHashTable
 from package import Package
+from truck import Truck
 import csv
 
 def main():
@@ -40,6 +41,26 @@ def main():
         print(f"Special Notes: {package.special_notes}")
         print(f"Delivery Status: {package.delivery_status}")
         print(f"Delivery Time: {package.delivery_time}")
+
+
+    # Load trucks
+    truck1 = Truck() # Early delivery
+    truck2 = Truck() # Delayed + can only be loaded on truck 2
+    truck3 = Truck() # Wrong address + remaining
+
+    early_delivery_packages = [
+        1, 13, 14, 15, 16, 20, 29, 30, 31, 34, 37, 40
+    ]
+    delayed_packages = [
+        3, 6, 18, 25, 28, 32, 36, 38
+    ]
+    wrong_address_packages = [
+        9
+    ]   
+    other_packages = [
+        2, 4, 5, 7, 8, 10, 11, 12, 17, 19, 21, 22, 23,
+        24, 26, 27, 33, 35, 39
+    ]
 
 
 if __name__ == "__main__":
