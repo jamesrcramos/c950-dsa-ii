@@ -1,3 +1,8 @@
+"""
+Source: 
+'C950 - Webinar 1 - Let's Go Hashing - Complete Python Code' from Course Resources
+https://srm--c.vf.force.com/apex/coursearticle?Id=kA03x000000e1fuCAA
+"""
 class ChainingHashTable:
     # Constructor with optional initial capacity parameter.
     # Assigns all buckets with an empty list.
