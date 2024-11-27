@@ -1,18 +1,18 @@
 from hash_table import ChainingHashTable
 from package import Package
+import csv
 
 def main():
     hash_table = ChainingHashTable()
     
     # Read and parse the packages CSV file
     with open('data/packages.csv', 'r') as file:
-        # Skip header row
-        next(file)
+        csv_reader = csv.reader(file)
         
-        for line in file:
-            # Split the line and clean up whitespace
-            data = [field.strip() for field in line.strip().split(',')]
-            
+        # Skip header row
+        next(csv_reader)
+        
+        for data in csv_reader:
             package = Package()
             package.id = int(data[0])
             package.address = data[1]
