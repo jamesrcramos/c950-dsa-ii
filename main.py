@@ -43,11 +43,7 @@ def load_address_data():
             address_data.append(address)
     return address_data
 
-def load_trucks():
-    truck1 = Truck()  # Early delivery
-    truck2 = Truck()  # Delayed + can only be loaded on truck 2 + wrong address
-    truck3 = Truck()  # No constraints
-
+def load_trucks(truck1, truck2, truck3):
     early_delivery_packages = [
         1, 13, 14, 15, 16, 20, 29, 30, 31, 34, 37, 40
     ]
@@ -79,8 +75,6 @@ def load_trucks():
             else:
                 print(f"Truck 1 is at max capacity. {package} not loaded.")
                 break
-                    
-    return truck1, truck2, truck3
 
 def deliver_packages(truck):
     packages = truck.get_packages()    
@@ -90,7 +84,10 @@ def main():
     distance_data = load_distance_data()
     address_data = load_address_data()
 
-    truck1, truck2, truck3 = load_trucks()
+    truck1 = Truck()  # Early delivery + remaining no constraints
+    truck2 = Truck()  # Delayed + can only be loaded on truck 2 + wrong address
+    truck3 = Truck()  # No constraints
+    load_trucks(truck1, truck2, truck3)
     deliver_packages(truck1)
 
 if __name__ == "__main__":
