@@ -82,12 +82,16 @@ def load_trucks():
                     
     return truck1, truck2, truck3
 
+def deliver_packages(truck):
+    packages = truck.get_packages()    
+
 def main():
     package_hash_table = load_package_data()
     distance_data = load_distance_data()
     address_data = load_address_data()
 
     truck1, truck2, truck3 = load_trucks()
+    deliver_packages(truck1)
 
 if __name__ == "__main__":
     main()
