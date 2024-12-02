@@ -82,7 +82,7 @@ def load_trucks(truck1, truck2, truck3, package_hash_table):
         if truck3.get_num_packages() < 16:
             truck3.load_packages([package])
         else:
-            print(f"Truck 3 is at max capacity. {package.id} not loaded.")
+            # print(f"Truck 3 is at max capacity. {package.id} not loaded.")
             break
     # Load remaining packages into truck 1 as it will be available first
     for package in other_packages:
@@ -90,7 +90,7 @@ def load_trucks(truck1, truck2, truck3, package_hash_table):
             if truck1.get_num_packages() < 16:
                 truck1.load_packages([package])
             else:
-                print(f"Truck 1 is at max capacity. {package.id} not loaded.")
+                # print(f"Truck 1 is at max capacity. {package.id} not loaded.")
                 break
 
 def get_address_index(address, address_data):
@@ -151,6 +151,7 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
 
                 undelivered_packages.remove(package)
                 break
+
 def display_menu():
     print("1. View All Package Status")
     print("2. Get Single Package Status")
@@ -180,7 +181,28 @@ def main():
         
         match choice:
             case "1":
-                pass
+                try:
+                    time_input = input("\nEnter time (HH:MM): ")
+                    hours, minutes = map(int, time_input.split(':'))
+                    check_time = datetime.timedelta(hours=hours, minutes=minutes)
+
+                    print("\nStatus of Packages at", time_input)
+                    print("ID  Address                                     City             Status")
+                    for i in range(1, 41):
+                        package = package_hash_table.search(i)
+                        if package:
+                            status = package.delivery_status
+                            if package.get_delivery_time() and check_time >= package.get_delivery_time():
+                                status = "Delivered"
+                            elif package.get_departure_time() and check_time >= package.get_departure_time():
+                                status = "In Transit"
+                            elif check_time < package.get_departure_time():
+                                status = "At Hub"
+                            
+                            print(f"{package.id:<4}{package.address:<44}{package.city:<16}{status}")
+                    print()
+                except ValueError:
+                    print("\nInvalid time format. Please try again using HH:MM format.")
             
             case "2":
                 pass
