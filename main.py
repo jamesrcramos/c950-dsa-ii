@@ -151,6 +151,12 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
 
                 undelivered_packages.remove(package)
                 break
+def display_menu():
+    print("1. View All Package Status")
+    print("2. Get Single Package Status")
+    print("3. View Total Mileage")
+    print("4. Exit")
+    return input("\nSelect an option (1-4): ")
 
 def main():
     package_hash_table = load_package_data()
@@ -168,6 +174,24 @@ def main():
     deliver_packages(truck2, package_hash_table, address_data, distance_data)
     truck3.set_current_time(min(truck1.get_current_time(), truck2.get_current_time()))  # The first available driver will drive truck 3
     deliver_packages(truck3, package_hash_table, address_data, distance_data)
+
+    while True:
+        choice = display_menu()
+        
+        if choice == "1":
+            pass
+        
+        elif choice == "2":
+            pass
+        
+        elif choice == "3":
+            pass
+        
+        elif choice == "4":
+            break
+        
+        else:
+            print("\nInvalid option. Please select 1-4.")
 
 if __name__ == "__main__":
     main()
