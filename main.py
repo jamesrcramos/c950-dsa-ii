@@ -148,7 +148,10 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
             if package.get_address() == closest_address:
                 print(f"Delivered {package.id} to {closest_address}")
                 print(distance)
-                package.set_delivery_status("Delivered")
+
+                package_hash_table.search(package.id).set_delivery_status("Delivered")
+                package_hash_table.search(package.id).set_delivery_time(truck.get_current_time())
+
                 undelivered_packages.remove(package)
                 break
 
@@ -164,10 +167,11 @@ def main():
     truck2 = Truck()  # Delayed + can only be loaded on truck 2 + wrong address
     truck2.set_current_time(datetime.timedelta(hours=9, minutes=5))
     truck3 = Truck()  # No constraints
+
     load_trucks(truck1, truck2, truck3, package_hash_table)
     deliver_packages(truck1, package_hash_table, address_data, distance_data)
     deliver_packages(truck2, package_hash_table, address_data, distance_data)
-    truck3.set_current_time(min(truck1.get_current_time(), truck2.get_current_time()))  # Truck 3 will leave when a driver is available
+    truck3.set_current_time(min(truck1.get_current_time(), truck2.get_current_time()))  # The first available driver will drive truck 3
     deliver_packages(truck3, package_hash_table, address_data, distance_data)
 
 if __name__ == "__main__":
