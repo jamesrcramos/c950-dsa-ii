@@ -123,13 +123,9 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
     packages = truck.get_packages()
     undelivered_packages = packages.copy()
 
-    # take current address from truck
-    # find closest address from current address and all undelivered packages
-    # update truck's current address to the closest address
-    # update truck's mileage to the distance between the current address and the closest address
-    # update package's delivery status to "Delivered"
-    # update package's delivery time to the current time
-    # remove the closest address from the undelivered packages
+    # TODO: update package's departure time
+    # TODO: update package's delivery time
+    # TODO: update current time for truck
     while undelivered_packages:
         current_address = truck.get_current_address()
         closest_address = find_closest_address(current_address, undelivered_packages, address_data, distance_data)
