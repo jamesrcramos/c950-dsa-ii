@@ -126,6 +126,7 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
     # TODO: update package's departure time
     # TODO: update package's delivery time
     # TODO: update current time for truck
+    # TODO: update package in hash table
     while undelivered_packages:
         current_address = truck.get_current_address()
         closest_address = find_closest_address(current_address, undelivered_packages, address_data, distance_data)
@@ -161,8 +162,8 @@ def main():
     truck2 = Truck()  # Delayed + can only be loaded on truck 2 + wrong address
     truck3 = Truck()  # No constraints
     load_trucks(truck1, truck2, truck3, package_hash_table)
-    deliver_packages(truck1, package_hash_table, address_data, distance_data)
-    # deliver_packages(truck2, package_hash_table, address_data, distance_data)
+    # deliver_packages(truck1, package_hash_table, address_data, distance_data)
+    deliver_packages(truck2, package_hash_table, address_data, distance_data)
     # deliver_packages(truck3, package_hash_table, address_data, distance_data)
 
 if __name__ == "__main__":
