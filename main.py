@@ -2,6 +2,7 @@ from hash_table import ChainingHashTable
 from package import Package
 from truck import Truck
 import csv
+import datetime
 
 def load_package_data():
     hash_table = ChainingHashTable()
@@ -159,7 +160,9 @@ def main():
     address_data = load_address_data()
 
     truck1 = Truck()  # Early delivery + remaining no constraints
+    truck1.set_current_time(datetime.timedelta(hours=8))
     truck2 = Truck()  # Delayed + can only be loaded on truck 2 + wrong address
+    truck2.set_current_time(datetime.timedelta(hours=9, minutes=5))
     truck3 = Truck()  # No constraints
     load_trucks(truck1, truck2, truck3, package_hash_table)
     # deliver_packages(truck1, package_hash_table, address_data, distance_data)

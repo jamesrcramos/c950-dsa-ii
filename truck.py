@@ -1,3 +1,5 @@
+import datetime
+
 class Truck:
     def __init__(self):
         self.packages = []
@@ -5,7 +7,8 @@ class Truck:
         self.speed = 18
         self.max_capacity = 16
         self.current_address = "4001 South 700 East"
-        
+        self.current_time = datetime.timedelta(hours=8)
+
     def get_num_packages(self):
         return len(self.packages)
     
@@ -17,6 +20,9 @@ class Truck:
     
     def get_mileage(self):
         return self.mileage
+    
+    def set_current_time(self, time):
+        self.current_time = time
     
     def set_current_address(self, address):
         self.current_address = address
