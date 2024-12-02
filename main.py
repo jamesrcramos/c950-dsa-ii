@@ -99,15 +99,62 @@ def get_address_index(address, address_data):
     except ValueError:
         print(f"Address not found: {address}")
         return -1
+    
+def find_closest_address(current_address, undelivered_packages, address_data, distance_data):
+    min_distance = float('inf')
+    closest_address = None
+    current_address_index = get_address_index(current_address, address_data)
+
+    for package in undelivered_packages:
+        package_address = package.get_address()
+        package_address_index = get_address_index(package_address, address_data)
+        if distance_data[package_address_index][current_address_index] > distance_data[current_address_index][package_address_index]:
+            distance = distance_data[package_address_index][current_address_index]
+        else:
+            distance = distance_data[current_address_index][package_address_index]
+
+        if distance < min_distance:
+            min_distance = distance
+            closest_address = package_address
+    
+    return closest_address
 
 def deliver_packages(truck, package_hash_table, address_data, distance_data):
     packages = truck.get_packages()
+    undelivered_packages = packages.copy()
 
     # take current address from truck
     # find closest address from current address and all undelivered packages
-    
     # update truck's current address to the closest address
     # update truck's mileage to the distance between the current address and the closest address
+    # update package's delivery status to "Delivered"
+    # update package's delivery time to the current time
+    # remove the closest address from the undelivered packages
+    while undelivered_packages:
+        current_address = truck.get_current_address()
+        closest_address = find_closest_address(current_address, undelivered_packages, address_data, distance_data)
+        
+        # Calculate distance to next delivery
+        current_index = get_address_index(current_address, address_data)
+        next_index = get_address_index(closest_address, address_data)
+        if distance_data[next_index][current_index] > distance_data[current_index][next_index]:
+            distance = distance_data[next_index][current_index]
+        else:
+            distance = distance_data[current_index][next_index]
+        
+        # Update truck's position and mileage
+        truck.set_current_address(closest_address)
+        truck.add_mileage(distance)
+
+        for package in undelivered_packages:
+            if package.get_address() == closest_address:
+                print(f"Delivered {package.id} to {closest_address}")
+                print(distance)
+                package.set_delivery_status("Delivered")
+                undelivered_packages.remove(package)
+                break
+
+        print(truck.get_mileage())
 
 def main():
     package_hash_table = load_package_data()
@@ -119,7 +166,7 @@ def main():
     truck3 = Truck()  # No constraints
     load_trucks(truck1, truck2, truck3, package_hash_table)
     deliver_packages(truck1, package_hash_table, address_data, distance_data)
-    deliver_packages(truck2, package_hash_table, address_data, distance_data)
+    # deliver_packages(truck2, package_hash_table, address_data, distance_data)
     # deliver_packages(truck3, package_hash_table, address_data, distance_data)
 
 if __name__ == "__main__":
