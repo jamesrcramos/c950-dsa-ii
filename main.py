@@ -124,9 +124,9 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
     packages = truck.get_packages()
     undelivered_packages = packages.copy()
 
-    # TODO: update package in hash table
-        # TODO: update package's departure time
-        # TODO: update package's delivery time
+    for package in packages:
+        package_hash_table.search(package.id).set_departure_time(truck.get_current_time())
+
     while undelivered_packages:
         current_address = truck.get_current_address()
         closest_address = find_closest_address(current_address, undelivered_packages, address_data, distance_data)
