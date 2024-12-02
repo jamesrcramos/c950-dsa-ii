@@ -178,20 +178,21 @@ def main():
     while True:
         choice = display_menu()
         
-        if choice == "1":
-            pass
+        match choice:
+            case "1":
+                pass
+            
+            case "2":
+                pass
+            
+            case "3":
+                pass
+            
+            case "4":
+                break
         
-        elif choice == "2":
-            pass
-        
-        elif choice == "3":
-            pass
-        
-        elif choice == "4":
-            break
-        
-        else:
-            print("\nInvalid option. Please select 1-4.")
+            case _:
+                print("\nInvalid option. Please select 1-4.")
 
 if __name__ == "__main__":
     main()
