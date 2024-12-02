@@ -4,6 +4,22 @@ class Truck:
         self.mileage = 0.0
         self.speed = 18
         self.max_capacity = 16
+        self.current_address = "4001 South 700 East"
+        
+    def get_num_packages(self):
+        return len(self.packages)
+    
+    def get_current_address(self):
+        return self.current_address
+    
+    def get_packages(self):
+        return self.packages
+    
+    def get_mileage(self):
+        return self.mileage
+    
+    def set_current_address(self, address):
+        self.current_address = address
 
     def load_packages(self, packages):
         for package in packages:
@@ -13,8 +29,5 @@ class Truck:
                 print(f"Truck is at max capacity. {package} not loaded.")
                 break
 
-    def get_num_packages(self):
-        return len(self.packages)
-    
-    def get_packages(self):
-        return self.packages
+    def add_mileage(self, distance):
+        self.mileage += distance
