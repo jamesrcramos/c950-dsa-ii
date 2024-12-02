@@ -18,6 +18,9 @@ class Package:
     def get_departure_time(self):
         return self.departure_time
     
+    def get_delivery_time(self):
+        return self.delivery_time
+    
     def set_departure_time(self, time):
         self.departure_time = time
     
