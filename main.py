@@ -146,16 +146,11 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
 
         for package in undelivered_packages:
             if package.get_address() == closest_address:
-                print(f"Delivered {package.id} to {closest_address}")
-                print(distance)
-
                 package_hash_table.search(package.id).set_delivery_status("Delivered")
                 package_hash_table.search(package.id).set_delivery_time(truck.get_current_time())
 
                 undelivered_packages.remove(package)
                 break
-
-        print(truck.get_mileage())
 
 def main():
     package_hash_table = load_package_data()
