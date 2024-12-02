@@ -92,8 +92,22 @@ def load_trucks(truck1, truck2, truck3, package_hash_table):
                 print(f"Truck 1 is at max capacity. {package.id} not loaded.")
                 break
 
-def deliver_packages(truck):
-    packages = truck.get_packages()    
+def get_address_index(address, address_data):
+    """Find the index of an address in the address data list"""
+    try:
+        return address_data.index(address)
+    except ValueError:
+        print(f"Address not found: {address}")
+        return -1
+
+def deliver_packages(truck, package_hash_table, address_data, distance_data):
+    packages = truck.get_packages()
+
+    # take current address from truck
+    # find closest address from current address and all undelivered packages
+    
+    # update truck's current address to the closest address
+    # update truck's mileage to the distance between the current address and the closest address
 
 def main():
     package_hash_table = load_package_data()
@@ -104,7 +118,9 @@ def main():
     truck2 = Truck()  # Delayed + can only be loaded on truck 2 + wrong address
     truck3 = Truck()  # No constraints
     load_trucks(truck1, truck2, truck3, package_hash_table)
-    deliver_packages(truck1)
+    deliver_packages(truck1, package_hash_table, address_data, distance_data)
+    deliver_packages(truck2, package_hash_table, address_data, distance_data)
+    # deliver_packages(truck3, package_hash_table, address_data, distance_data)
 
 if __name__ == "__main__":
     main()
