@@ -124,10 +124,9 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
     packages = truck.get_packages()
     undelivered_packages = packages.copy()
 
-    # TODO: update package's departure time
-    # TODO: update package's delivery time
-    # TODO: update current time for truck
     # TODO: update package in hash table
+        # TODO: update package's departure time
+        # TODO: update package's delivery time
     while undelivered_packages:
         current_address = truck.get_current_address()
         closest_address = find_closest_address(current_address, undelivered_packages, address_data, distance_data)
@@ -143,6 +142,7 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
         # Update truck's position and mileage
         truck.set_current_address(closest_address)
         truck.add_mileage(distance)
+        truck.set_current_time(truck.get_current_time() + datetime.timedelta(hours=distance/18))
 
         for package in undelivered_packages:
             if package.get_address() == closest_address:
@@ -165,9 +165,10 @@ def main():
     truck2.set_current_time(datetime.timedelta(hours=9, minutes=5))
     truck3 = Truck()  # No constraints
     load_trucks(truck1, truck2, truck3, package_hash_table)
-    # deliver_packages(truck1, package_hash_table, address_data, distance_data)
+    deliver_packages(truck1, package_hash_table, address_data, distance_data)
     deliver_packages(truck2, package_hash_table, address_data, distance_data)
-    # deliver_packages(truck3, package_hash_table, address_data, distance_data)
+    truck3.set_current_time(min(truck1.get_current_time(), truck2.get_current_time()))  # Truck 3 will leave when a driver is available
+    deliver_packages(truck3, package_hash_table, address_data, distance_data)
 
 if __name__ == "__main__":
     main()
