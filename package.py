@@ -15,5 +15,15 @@ class Package:
     def get_address(self):
         return self.address
     
+    def get_departure_time(self):
+        return self.departure_time
+    
+    def set_departure_time(self, time):
+        self.departure_time = time
+    
     def set_delivery_status(self, status):
         self.delivery_status = status
+
+    def set_delivery_time(self, time):
+        self.delivery_time = time
+
