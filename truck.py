@@ -15,6 +15,9 @@ class Truck:
     def get_current_address(self):
         return self.current_address
     
+    def get_current_time(self):
+        return self.current_time
+    
     def get_packages(self):
         return self.packages
     
