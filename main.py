@@ -159,6 +159,22 @@ def display_menu():
     print("4. Exit")
     return input("\nSelect an option (1-4): ")
 
+def print_package_status(package_id, check_time, package_hash_table):
+    package = package_hash_table.search(package_id)
+    
+    if package:
+        status = package.delivery_status
+        if package.get_delivery_time() and check_time >= package.get_delivery_time():
+            status = "Delivered"
+        elif package.get_departure_time() and check_time >= package.get_departure_time():
+            status = "In Transit"
+        elif check_time < package.get_departure_time():
+            status = "At Hub"
+
+        print(f"{package_id:<4}{package.address:<44}{package.city:<16}{status}")
+    else:
+        print("\nPackage ID not found.")
+
 def main():
     package_hash_table = load_package_data()
     distance_data = load_distance_data()
@@ -186,23 +202,13 @@ def main():
                     hours, minutes = map(int, time_input.split(':'))
                     check_time = datetime.timedelta(hours=hours, minutes=minutes)
 
-                    print("\nStatus of Packages at", time_input)
+                    print("\nStatus of packages at", time_input)
                     print("ID  Address                                     City             Status")
                     for i in range(1, 41):
-                        package = package_hash_table.search(i)
-                        if package:
-                            status = package.delivery_status
-                            if package.get_delivery_time() and check_time >= package.get_delivery_time():
-                                status = "Delivered"
-                            elif package.get_departure_time() and check_time >= package.get_departure_time():
-                                status = "In Transit"
-                            elif check_time < package.get_departure_time():
-                                status = "At Hub"
-                            
-                            print(f"{package.id:<4}{package.address:<44}{package.city:<16}{status}")
-                    print()
+                        print_package_status(i, check_time, package_hash_table)
                 except ValueError:
                     print("\nInvalid time format. Please try again using HH:MM format.")
+                print()
             
             case "2":
                 try:
@@ -211,24 +217,12 @@ def main():
                     hours, minutes = map(int, time_input.split(':'))
                     check_time = datetime.timedelta(hours=hours, minutes=minutes)
 
-                    package = package_hash_table.search(package_id)
-                    if package:
-                        status = package.delivery_status
-                        if package.get_delivery_time() and check_time >= package.get_delivery_time():
-                            status = "Delivered"
-                        elif package.get_departure_time() and check_time >= package.get_departure_time():
-                            status = "In Transit"
-                        elif check_time < package.get_departure_time():
-                            status = "At Hub"
-                        
-                        print("\nStatus of Package at", time_input)
-                        print("ID  Address                                     City             Status")
-                        print(f"{package.id:<4}{package.address:<44}{package.city:<16}{status}")
-                    else:
-                        print("\nPackage ID not found.")
-                    print()
+                    print("\nStatus of package at", check_time)
+                    print("ID  Address                                     City             Status")
+                    print_package_status(package_id, check_time, package_hash_table)
                 except ValueError:
                     print("\nInvalid input. Please enter a valid package ID and time in HH:MM format.")
+                print()
             
             case "3":
                 print("\nTotal Mileage: ", truck1.get_mileage() + truck2.get_mileage() + truck3.get_mileage())
