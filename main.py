@@ -97,6 +97,9 @@ def load_trucks(truck1, truck2, truck3, package_hash_table):
     truck2.load_packages(truck_2_specific_packages)
     truck2.load_packages(delayed_packages)
     truck3.load_packages(wrong_address_packages)
+
+    # Load remaining packages into truck 3
+    # Load onto trucks 1 and 2 if truck 3 is at max capacity
     for package in other_packages:
         if truck3.get_num_packages() < 16:
             if package.id == 19:    # Skip loading package 19 on truck 3 to ensure special notes are met
@@ -105,8 +108,7 @@ def load_trucks(truck1, truck2, truck3, package_hash_table):
         else:
             # print(f"Truck 3 is at max capacity. {package.id} not loaded.")
             break
-    # Load remaining packages into trucks 1 and 2
-    for package in other_packages:
+    for package in other_packages:  # Load remaining packages into trucks 1 and 2
         if package not in truck3.get_packages():
             if truck1.get_num_packages() < 16:
                 truck1.load_packages([package])
