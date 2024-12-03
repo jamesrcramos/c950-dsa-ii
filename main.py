@@ -229,10 +229,9 @@ def main():
                     print()
                 except ValueError:
                     print("\nInvalid input. Please enter a valid package ID and time in HH:MM format.")
-                pass
             
             case "3":
-                pass
+                print("\nTotal Mileage: ", truck1.get_mileage() + truck2.get_mileage() + truck3.get_mileage())
             
             case "4":
                 break
