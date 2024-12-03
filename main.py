@@ -53,11 +53,13 @@ def load_trucks(truck1, truck2, truck3, package_hash_table):
         package_hash_table.search(31), package_hash_table.search(34),
         package_hash_table.search(37), package_hash_table.search(40)
     ]
-    delayed_packages = [
-        package_hash_table.search(3), package_hash_table.search(6),
-        package_hash_table.search(18), package_hash_table.search(25),
-        package_hash_table.search(28), package_hash_table.search(32),
+    truck_2_specific_packages = [
+        package_hash_table.search(3), package_hash_table.search(18),
         package_hash_table.search(36), package_hash_table.search(38)
+    ]
+    delayed_packages = [
+        package_hash_table.search(6), package_hash_table.search(25),
+        package_hash_table.search(28), package_hash_table.search(32)
     ]
     wrong_address_packages = [
         package_hash_table.search(9)
@@ -76,22 +78,32 @@ def load_trucks(truck1, truck2, truck3, package_hash_table):
     ]
 
     truck1.load_packages(early_delivery_packages)
+    truck2.load_packages(truck_2_specific_packages)
     truck2.load_packages(delayed_packages)
     truck3.load_packages(wrong_address_packages)
     for package in other_packages:
         if truck3.get_num_packages() < 16:
+            if package.id == 19:    # Skip loading package 19 on truck 3 to ensure special notes are met
+                continue
             truck3.load_packages([package])
         else:
             # print(f"Truck 3 is at max capacity. {package.id} not loaded.")
             break
-    # Load remaining packages into truck 1 as it will be available first
+    # Load remaining packages into trucks 1 and 2
     for package in other_packages:
         if package not in truck3.get_packages():
             if truck1.get_num_packages() < 16:
                 truck1.load_packages([package])
             else:
                 # print(f"Truck 1 is at max capacity. {package.id} not loaded.")
-                break
+                if package not in truck2.get_packages():
+                    if truck2.get_num_packages() < 16:
+                        truck2.load_packages([package])
+                    else:
+                        # print(f"Truck 2 is at max capacity. {package.id} not loaded.")
+                        break
+                else:
+                    break
 
 def get_address_index(address, address_data):
     """Find the index of an address in the address data list"""
@@ -161,7 +173,7 @@ def display_menu():
 
 def print_package_status(package_id, check_time, package_hash_table):
     package = package_hash_table.search(package_id)
-    
+
     if package:
         status = package.delivery_status
         if package.get_delivery_time() and check_time >= package.get_delivery_time():
