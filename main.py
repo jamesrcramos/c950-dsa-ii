@@ -215,7 +215,7 @@ def print_package_status(package_id, check_time, package_hash_table):
         elif check_time < package.get_departure_time():
             status = "At Hub"
 
-        print(f"{package_id:<4}{package.address:<44}{package.city:<16}{status}")
+        print(f"{package_id:<4}{package.address:<44}{package.city:<17}{status:<16}{package.get_delivery_time()}")
     else:
         print("\nPackage ID not found.")
 
@@ -256,7 +256,7 @@ def main():
                     check_time = datetime.timedelta(hours=hours, minutes=minutes)
 
                     print("\nStatus of packages at", time_input)
-                    print("ID  Address                                     City             Status")
+                    print("ID  Address                                     City             Status          Delivered At")
                     for i in range(1, 41):
                         print_package_status(i, check_time, package_hash_table)
                 except ValueError:
@@ -271,7 +271,7 @@ def main():
                     check_time = datetime.timedelta(hours=hours, minutes=minutes)
 
                     print("\nStatus of package at", check_time)
-                    print("ID  Address                                     City             Status")
+                    print("ID  Address                                     City             Status          Delivered At")
                     print_package_status(package_id, check_time, package_hash_table)
                 except ValueError:
                     print("\nInvalid input. Please enter a valid package ID and time in HH:MM format.")
@@ -279,6 +279,7 @@ def main():
             
             case "3":
                 print("\nTotal Mileage: ", truck1.get_mileage() + truck2.get_mileage() + truck3.get_mileage())
+                print()
             
             case "4":
                 break
