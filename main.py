@@ -205,6 +205,30 @@ def main():
                     print("\nInvalid time format. Please try again using HH:MM format.")
             
             case "2":
+                try:
+                    package_id = int(input("\nEnter package ID (1-40): "))
+                    time_input = input("Enter time (HH:MM): ")
+                    hours, minutes = map(int, time_input.split(':'))
+                    check_time = datetime.timedelta(hours=hours, minutes=minutes)
+
+                    package = package_hash_table.search(package_id)
+                    if package:
+                        status = package.delivery_status
+                        if package.get_delivery_time() and check_time >= package.get_delivery_time():
+                            status = "Delivered"
+                        elif package.get_departure_time() and check_time >= package.get_departure_time():
+                            status = "In Transit"
+                        elif check_time < package.get_departure_time():
+                            status = "At Hub"
+                        
+                        print("\nStatus of Package at", time_input)
+                        print("ID  Address                                     City             Status")
+                        print(f"{package.id:<4}{package.address:<44}{package.city:<16}{status}")
+                    else:
+                        print("\nPackage ID not found.")
+                    print()
+                except ValueError:
+                    print("\nInvalid input. Please enter a valid package ID and time in HH:MM format.")
                 pass
             
             case "3":
