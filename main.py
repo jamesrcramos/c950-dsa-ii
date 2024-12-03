@@ -1,9 +1,16 @@
+# Author: James Ramos
+# Student ID: 011802679
+# Date: 12/03/2024
+
 from hash_table import ChainingHashTable
 from package import Package
 from truck import Truck
 import csv
 import datetime
 
+'''
+Load package data from CSV file into a custom chaining hash table
+'''
 def load_package_data():
     hash_table = ChainingHashTable()
     with open('data/packages.csv', 'r') as file:
@@ -24,6 +31,9 @@ def load_package_data():
             hash_table.insert(package.id, package)
     return hash_table
 
+'''
+Load distance data from CSV file into a 2D list
+'''
 def load_distance_data():
     distance_data = []
     with open('data/distances.csv', 'r') as file:
@@ -34,6 +44,9 @@ def load_distance_data():
             distance_data.append(filtered_row)
     return distance_data
 
+'''
+Load address data from CSV file into a list
+'''
 def load_address_data():
     address_data = []
     with open('data/addresses.csv', 'r') as file:
@@ -44,6 +57,9 @@ def load_address_data():
             address_data.append(address)
     return address_data
 
+'''
+Manually load packages into trucks
+'''
 def load_trucks(truck1, truck2, truck3, package_hash_table):
     early_delivery_packages = [
         package_hash_table.search(1), package_hash_table.search(13),
@@ -105,6 +121,9 @@ def load_trucks(truck1, truck2, truck3, package_hash_table):
                 else:
                     break
 
+'''
+Find the index of an address in the address data list
+'''
 def get_address_index(address, address_data):
     """Find the index of an address in the address data list"""
     try:
@@ -113,6 +132,10 @@ def get_address_index(address, address_data):
         print(f"Address not found: {address}")
         return -1
     
+'''
+Find the closest address to the current address
+Implements the nearest neighbor algorithm
+'''
 def find_closest_address(current_address, undelivered_packages, address_data, distance_data):
     min_distance = float('inf')
     closest_address = None
@@ -132,6 +155,9 @@ def find_closest_address(current_address, undelivered_packages, address_data, di
     
     return closest_address
 
+'''
+Deliver packages using the nearest neighbor algorithm
+'''
 def deliver_packages(truck, package_hash_table, address_data, distance_data):
     packages = truck.get_packages()
     undelivered_packages = packages.copy()
@@ -164,6 +190,9 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
                 undelivered_packages.remove(package)
                 break
 
+'''
+Display the main menu
+'''
 def display_menu():
     print("1. View All Package Status")
     print("2. Get Single Package Status")
@@ -171,6 +200,9 @@ def display_menu():
     print("4. Exit")
     return input("\nSelect an option (1-4): ")
 
+'''
+Print the status of a package at a given time
+'''
 def print_package_status(package_id, check_time, package_hash_table):
     package = package_hash_table.search(package_id)
 
@@ -187,23 +219,32 @@ def print_package_status(package_id, check_time, package_hash_table):
     else:
         print("\nPackage ID not found.")
 
+'''
+Main function
+'''
 def main():
+    # Load data
     package_hash_table = load_package_data()
     distance_data = load_distance_data()
     address_data = load_address_data()
 
+    # Initialize trucks
     truck1 = Truck()  # Early delivery + remaining no constraints
     truck1.set_current_time(datetime.timedelta(hours=8))
     truck2 = Truck()  # Delayed + can only be loaded on truck 2 + wrong address
     truck2.set_current_time(datetime.timedelta(hours=9, minutes=5))
     truck3 = Truck()  # No constraints
 
+    # Load packages
     load_trucks(truck1, truck2, truck3, package_hash_table)
+
+    # Deliver packages
     deliver_packages(truck1, package_hash_table, address_data, distance_data)
     deliver_packages(truck2, package_hash_table, address_data, distance_data)
     truck3.set_current_time(min(truck1.get_current_time(), truck2.get_current_time()))  # The first available driver will drive truck 3
     deliver_packages(truck3, package_hash_table, address_data, distance_data)
 
+    # User Interface
     while True:
         choice = display_menu()
         
