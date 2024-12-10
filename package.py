@@ -9,6 +9,7 @@ class Package:
         self.weight = None
         self.special_notes = None
         self.departure_time = None
+        self.truck = None;
         self.delivery_status = "At Hub"
         self.delivery_time = None
 
@@ -23,6 +24,9 @@ class Package:
     
     def set_departure_time(self, time):
         self.departure_time = time
+
+    def set_truck(self, truck_number):
+        self.truck = truck_number
     
     def set_delivery_status(self, status):
         self.delivery_status = status
