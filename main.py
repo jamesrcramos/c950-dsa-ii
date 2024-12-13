@@ -61,7 +61,7 @@ def load_address_data():
 Manually load packages into trucks
 '''
 def load_trucks(truck1, truck2, truck3, package_hash_table):
-    early_delivery_packages = [
+    truck_1_packages = [
         package_hash_table.search(1), package_hash_table.search(13),
         package_hash_table.search(14), package_hash_table.search(15),
         package_hash_table.search(16), package_hash_table.search(20),
@@ -69,70 +69,28 @@ def load_trucks(truck1, truck2, truck3, package_hash_table):
         package_hash_table.search(31), package_hash_table.search(34),
         package_hash_table.search(37), package_hash_table.search(40)
     ]
-    truck_2_specific_packages = [
-        package_hash_table.search(3), package_hash_table.search(18),
-        package_hash_table.search(36), package_hash_table.search(38)
-    ]
-    delayed_packages = [
-        package_hash_table.search(6), package_hash_table.search(25),
-        package_hash_table.search(28), package_hash_table.search(32)
-    ]
-    wrong_address_packages = [
-        package_hash_table.search(9)
-    ]
-    other_packages = [
-        package_hash_table.search(2), package_hash_table.search(4),
-        package_hash_table.search(5), package_hash_table.search(7),
-        package_hash_table.search(8), package_hash_table.search(10),
-        package_hash_table.search(11), package_hash_table.search(12),
-        package_hash_table.search(17), package_hash_table.search(19),
+    truck_2_packages = [
+        package_hash_table.search(3), package_hash_table.search(6),
+        package_hash_table.search(12), package_hash_table.search(17),
+        package_hash_table.search(18), package_hash_table.search(19),
         package_hash_table.search(21), package_hash_table.search(22),
         package_hash_table.search(23), package_hash_table.search(24),
         package_hash_table.search(26), package_hash_table.search(27),
-        package_hash_table.search(33), package_hash_table.search(35),
-        package_hash_table.search(39)
+        package_hash_table.search(35), package_hash_table.search(36),
+        package_hash_table.search(38), package_hash_table.search(39)
+    ]
+    truck_3_packages = [
+        package_hash_table.search(2), package_hash_table.search(4),
+        package_hash_table.search(5), package_hash_table.search(7),
+        package_hash_table.search(8), package_hash_table.search(9),
+        package_hash_table.search(10), package_hash_table.search(11),
+        package_hash_table.search(25), package_hash_table.search(28),
+        package_hash_table.search(32), package_hash_table.search(33)
     ]
 
-    truck1.load_packages(early_delivery_packages)
-    for package in early_delivery_packages:
-        package.set_truck(1)
-    truck2.load_packages(truck_2_specific_packages)
-    for package in truck_2_specific_packages:
-        package.set_truck(2)
-    truck2.load_packages(delayed_packages)
-    for package in delayed_packages:
-        package.set_truck(2)
-    truck3.load_packages(wrong_address_packages)
-    for package in wrong_address_packages:
-        package.set_truck(3)
-
-    # Load remaining packages into truck 3
-    # Load onto trucks 1 and 2 if truck 3 is at max capacity
-    for package in other_packages:
-        if truck3.get_num_packages() < 16:
-            if package.id == 19:    # Skip loading package 19 on truck 3 to ensure special notes are met
-                continue
-            truck3.load_packages([package])
-            package.set_truck(3)
-        else:
-            # print(f"Truck 3 is at max capacity. {package.id} not loaded.")
-            break
-    for package in other_packages:  # Load remaining packages into trucks 1 and 2
-        if package not in truck3.get_packages():
-            if truck1.get_num_packages() < 16:
-                truck1.load_packages([package])
-                package.set_truck(1)
-            else:
-                # print(f"Truck 1 is at max capacity. {package.id} not loaded.")
-                if package not in truck2.get_packages():
-                    if truck2.get_num_packages() < 16:
-                        truck2.load_packages([package])
-                        package.set_truck(2)
-                    else:
-                        # print(f"Truck 2 is at max capacity. {package.id} not loaded.")
-                        break
-                else:
-                    break
+    truck1.load_packages(truck_1_packages)
+    truck2.load_packages(truck_2_packages)
+    truck3.load_packages(truck_3_packages)
 
 '''
 Find the index of an address in the address data list
@@ -248,9 +206,12 @@ def main():
     # Initialize trucks
     truck1 = Truck()  # Early delivery + remaining no constraints
     truck1.set_current_time(datetime.timedelta(hours=8))
+    truck1.set_id(1)
     truck2 = Truck()  # Delayed + can only be loaded on truck 2 + wrong address
     truck2.set_current_time(datetime.timedelta(hours=9, minutes=5))
+    truck2.set_id(2)
     truck3 = Truck()  # No constraints
+    truck3.set_id(3)
 
     # Load packages
     load_trucks(truck1, truck2, truck3, package_hash_table)
