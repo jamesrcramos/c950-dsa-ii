@@ -2,14 +2,17 @@ import datetime
 
 class Truck:
     def __init__(self):
+        self.id = 0
         self.packages = []
         self.mileage = 0.0
         self.speed = 18
         self.max_capacity = 16
         self.current_address = "4001 South 700 East"
         self.current_time = datetime.timedelta(hours=8)
-        self.id = 0
-
+        
+    def get_id(self):
+        return self.id
+    
     def get_num_packages(self):
         return len(self.packages)
     
