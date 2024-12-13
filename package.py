@@ -2,6 +2,7 @@ class Package:
     def __init__(self):
         self.id = None
         self.address = None
+        self.original_address = None
         self.city = None
         self.state = None
         self.zip = None
@@ -15,6 +16,9 @@ class Package:
 
     def get_id(self):
         return self.id
+    
+    def get_original_address(self):
+        return self.original_address
     
     def get_address(self):
         return self.address
@@ -45,6 +49,12 @@ class Package:
     
     def get_delivery_time(self):
         return self.delivery_time
+    
+    def set_address(self, address):
+        self.address = address
+    
+    def set_original_address(self, address):
+        self.original_address = address
     
     def set_departure_time(self, time):
         self.departure_time = time
