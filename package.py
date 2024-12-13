@@ -13,11 +13,29 @@ class Package:
         self.delivery_status = "At Hub"
         self.delivery_time = None
 
+    def get_id(self):
+        return self.id
+    
     def get_address(self):
         return self.address
     
     def get_city(self):
         return self.city
+    
+    def get_state(self):
+        return self.state
+    
+    def get_zip(self):
+        return self.zip
+    
+    def get_delivery_deadline(self):
+        return self.delivery_deadline
+    
+    def get_weight(self):
+        return self.weight
+    
+    def get_special_notes(self):
+        return self.special_notes
     
     def get_truck(self):
         return self.truck
