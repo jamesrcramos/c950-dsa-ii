@@ -16,6 +16,12 @@ class Package:
     def get_address(self):
         return self.address
     
+    def get_city(self):
+        return self.city
+    
+    def get_truck(self):
+        return self.truck
+    
     def get_departure_time(self):
         return self.departure_time
     
