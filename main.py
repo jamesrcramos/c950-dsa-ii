@@ -94,9 +94,17 @@ def load_trucks(truck1, truck2, truck3, package_hash_table):
     ]
 
     truck1.load_packages(early_delivery_packages)
+    for package in early_delivery_packages:
+        package.set_truck(1)
     truck2.load_packages(truck_2_specific_packages)
+    for package in truck_2_specific_packages:
+        package.set_truck(2)
     truck2.load_packages(delayed_packages)
+    for package in delayed_packages:
+        package.set_truck(2)
     truck3.load_packages(wrong_address_packages)
+    for package in wrong_address_packages:
+        package.set_truck(3)
 
     # Load remaining packages into truck 3
     # Load onto trucks 1 and 2 if truck 3 is at max capacity
@@ -213,14 +221,18 @@ def print_package_status(package_id, check_time, package_hash_table):
 
     if package:
         status = package.delivery_status
+        
         if package.get_delivery_time() and check_time >= package.get_delivery_time():
-            status = "Delivered"
+            status = f"Delivered at {package.get_delivery_time()}"
         elif package.get_departure_time() and check_time >= package.get_departure_time():
             status = "In Transit"
         elif check_time < package.get_departure_time():
             status = "At Hub"
 
-        print(f"{package_id:<4}{package.address:<44}{package.city:<17}{status:<16}{package.get_delivery_time()}")
+        address = package.get_address()
+        city = package.get_city()
+        truck_num = package.get_truck() if package.get_truck() else ""
+        print(f"{package_id:<4}{address:<44}{city:<17}{status:<35}{truck_num:>5}")
     else:
         print("\nPackage ID not found.")
 
@@ -261,7 +273,7 @@ def main():
                     check_time = datetime.timedelta(hours=hours, minutes=minutes)
 
                     print("\nStatus of packages at", time_input)
-                    print("ID  Address                                     City             Status          Delivered At")
+                    print("ID  Address                                     City             Status                              Truck")
                     for i in range(1, 41):
                         print_package_status(i, check_time, package_hash_table)
                 except ValueError:
@@ -276,7 +288,7 @@ def main():
                     check_time = datetime.timedelta(hours=hours, minutes=minutes)
 
                     print("\nStatus of package at", check_time)
-                    print("ID  Address                                     City             Status          Delivered At")
+                    print("ID  Address                                     City             Status                              Truck")
                     print_package_status(package_id, check_time, package_hash_table)
                 except ValueError:
                     print("\nInvalid input. Please enter a valid package ID and time in HH:MM format.")
