@@ -137,6 +137,14 @@ def deliver_packages(truck, package_hash_table, address_data, distance_data):
         package_hash_table.search(package.id).set_departure_time(truck.get_current_time())
 
     while undelivered_packages:
+        # Edge case - Package 9's address is corrected at 10:20 AM
+        if (truck.get_id() == 2):
+            if (truck.get_current_time() >= datetime.timedelta(hours=10, minutes=20)
+                and package_hash_table.search(9).get_address() != "410 S State St"):
+                package_9 = package_hash_table.search(9)
+                package_9.set_original_address(package_9.get_address())
+                package_9.set_address("410 S State St")
+
         current_address = truck.get_current_address()
         closest_address = find_closest_address(current_address, undelivered_packages, address_data, distance_data)
         
@@ -178,17 +186,22 @@ def print_package_status(package_id, check_time, package_hash_table):
     package = package_hash_table.search(package_id)
 
     if package:
+        address = package.get_address()
+        if (package.get_id() == 9):
+            if check_time < datetime.timedelta(hours=10, minutes=20):
+                address = package.get_original_address()
+
         status = package.delivery_status
         
         if package.get_delivery_time() and check_time >= package.get_delivery_time():
-            status = f"Delivered by Truck-{package.get_truck()}"
+            status = f"Delivered by Truck {package.get_truck()}"
         elif package.get_departure_time() and check_time >= package.get_departure_time():
-            status = f"In Transit on Truck-{package.get_truck()}"
+            status = f"In Transit on Truck {package.get_truck()}"
         elif check_time < package.get_departure_time():
             status = "At Hub"
 
         output = (
-            f"{package.get_id()}, {package.get_address()}, {package.get_city()}, "
+            f"{package.get_id()}, {address}, {package.get_city()}, "
             f"{package.get_state()}, {package.get_zip()}, {package.get_delivery_deadline()}, "
             f"{package.get_weight()}, {package.get_special_notes() or 'No special notes'}, {status}, "
             f"{package.get_delivery_time() if package.get_delivery_time() and check_time >= package.get_delivery_time() else 'Not Delivered'}"
