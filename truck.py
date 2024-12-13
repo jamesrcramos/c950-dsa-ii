@@ -8,6 +8,7 @@ class Truck:
         self.max_capacity = 16
         self.current_address = "4001 South 700 East"
         self.current_time = datetime.timedelta(hours=8)
+        self.id = 0
 
     def get_num_packages(self):
         return len(self.packages)
@@ -30,10 +31,14 @@ class Truck:
     def set_current_address(self, address):
         self.current_address = address
 
+    def set_id(self, id):
+        self.id = id
+
     def load_packages(self, packages):
         for package in packages:
             if len(self.packages) < self.max_capacity:
                 self.packages.append(package)
+                package.set_truck(self.id)
             else:
                 print(f"Truck is at max capacity. {package} not loaded.")
                 break
