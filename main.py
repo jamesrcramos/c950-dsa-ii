@@ -187,7 +187,7 @@ def print_package_status(package_id, check_time, package_hash_table):
 
     if package:
         address = package.get_address()
-        if (package.get_id() == 9):
+        if (package.get_id() == 9): # Edge case - Package 9's address is corrected at 10:20 AM
             if check_time < datetime.timedelta(hours=10, minutes=20):
                 address = package.get_original_address()
 
